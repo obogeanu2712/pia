@@ -1,19 +1,21 @@
 Implementation of API on ESP32 module
 
-The program first scans and creates a list of available WiFi networks and accept the network password (if applicable) specified by a mobile app. After the WiFi connection is established, the app requests a list of data. From the list, the user is be able to request details about a specific entry in the data list, acording to the API specifications.
+The mobile application is developed by our PIA teacher, Bogdan Florea (UNSTPB). The following part only describes the code running on the ESP32 used in this project.
+
+The program first scans and creates a list of available WiFi networks and accepts the network password (if applicable) specified by a mobile app. After the WiFi connection is established, the app requests a list of data. From the list, the user can request details about a specific entry in the data list, according to the API specifications.
 
 Here's a list of the API requests and response specifications:
 
 getNetworks
 
-The getNetworks request is the first request sent by the app and is used for obtaining the list of available WiFi networks available to the ESP32 device, as well as setting the teamId parameter, which will be a required parameter for all responses.
+The getNetworks request is the first request sent by the app to obtain the list of available WiFi networks to the ESP32 device and set the teamId parameter, which is the required parameter for all responses.
 
 {
     action: 'getNetworks',
     teamId: string
 }
 
-The teamId value must be saved in the ESP32 program. Without it, the app will not allow further actions. The expected response is a JSON encoded object for each WiFi network, in the following form:
+The teamId value must be saved in the ESP32 program. Without it, the app doesn't allow further actions. The expected response is a JSON-encoded object for each WiFi network, in the following form:
 
 {
     ssid: string,
@@ -22,11 +24,11 @@ The teamId value must be saved in the ESP32 program. Without it, the app will no
     teamId: string
 }
 
-Any additional fields will be ignored by the app.
+Any additional fields are ignored by the app.
 
 connect
 
-The connect request is used to connect to a specified network with the WiFi password (if required). Notice that the teamId parameter is no longer sent in this request or any other subsequent request, but the previously stored value will have to be included in all responses, matching the initial value the was sent by the getNetworks request
+The connect request is used to connect to a specified network with the WiFi password (if required). Notice that the teamId parameter is no longer sent in this request or any other subsequent request, but the previously stored value will have to be included in all responses, matching the initial value that was sent by the getNetworks request
 
 {
     action: 'connect',
@@ -41,8 +43,6 @@ The expected response is a JSON encoded object in the following form:
     connected: bool,
     teamId: string
 }
-
-Any additional fields is be ignored by the app.
 
 getData
 
@@ -60,8 +60,6 @@ Each API returns a different set of attributes. The ESP32 program should send on
     image: string (url|base64),
     teamId: string
 }
-
-Any additional fields will be ignored by the app.
 
 getDetails
 
@@ -81,5 +79,3 @@ Since each API returns different attributes for the records, the description att
     description: string,
     teamId: string
 }
-
-Any additional fields will be ignored by the app.
